@@ -9,7 +9,7 @@ function mustGet(name: string): string {
 export const ENV = {
   // Worker Configuration
   WORKER_PORT: Number(process.env.WORKER_PORT || "3002"),
-  WORKER_ID: (process.env.WORKER_ID || "bot-worker-1").trim(),
+  WORKER_ID: (process.env.WORKER_ID || "movistar-bot-worker-1").trim(),
 
   // TEMM App Credentials
   TEMM_USER: mustGet("TEMM_USER"),
@@ -38,7 +38,7 @@ export const ENV = {
 
   // Verbose mode
   VERBOSE: process.env.VERBOSE === "true",
-} as const;
+};
 
 // Logging functions
 export const log = {

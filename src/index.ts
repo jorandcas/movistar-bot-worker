@@ -207,7 +207,8 @@ process.on('SIGTERM', async () => {
     await cancelExecution();
     process.exit(0);
   } catch (error) {
-    log.error('Error during shutdown:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    log.error('Error during shutdown:', errorMessage);
     process.exit(1);
   }
 });
@@ -218,7 +219,8 @@ process.on('SIGINT', async () => {
     await cancelExecution();
     process.exit(0);
   } catch (error) {
-    log.error('Error during shutdown:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    log.error('Error during shutdown:', errorMessage);
     process.exit(1);
   }
 });

@@ -46,14 +46,18 @@ export async function healthCheck(): Promise<HealthCheckResult> {
  */
 export async function checkAppiumConnection(): Promise<boolean> {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     const response = await fetch(`http://${ENV.APPIUM_HOST}:${ENV.APPIUM_PORT}/status`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      timeout: 5000,
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
     return response.ok;
   } catch (error) {
     return false;

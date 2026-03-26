@@ -224,3 +224,39 @@ export function calculateFVCDate(): string {
 
   return formattedDate;
 }
+
+/**
+ * Espera a que la pantalla esté estable (sin loading spinners)
+ */
+export async function waitForScreenStable(
+  driver: Browser,
+  stabilityTimeout: number = TIMEOUTS.PAUSES.STABILITY,
+  checkInterval: number = TIMEOUTS.INTERVALS.STABILITY_CHECK,
+  maxWaitTime: number = TIMEOUTS.WAITS.STABILITY
+): Promise<void> {
+  const startTime = Date.now();
+  let lastStableTime = Date.now();
+  let stableCount = 0;
+
+  log.info("Esperando que la pantalla se estabilice...");
+
+  while (Date.now() - startTime < maxWaitTime) {
+    try {
+      const currentTime = Date.now();
+      if (currentTime - lastStableTime >= stabilityTimeout) {
+        stableCount++;
+        if (stableCount >= 2) {
+          log.info("✓ Pantalla estable");
+          return;
+        }
+      }
+
+      await driver.pause(checkInterval);
+    } catch (error) {
+      lastStableTime = Date.now();
+      stableCount = 0;
+    }
+  }
+
+  log.warn("Timeout esperando estabilidad, continuando...");
+}
