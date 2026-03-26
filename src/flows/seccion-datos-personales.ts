@@ -116,7 +116,7 @@ export async function seccionDatosPersonales(driver: Browser) {
         );
         await driver.pause(TIMEOUTS.PAUSES.MEDIUM);
 
-        const generoSelector = ENV.DATOS_GENERO === "Femenino"
+        const generoSelector = (ENV.DATOS_GENERO as string) === "Femenino"
             ? SEL.generoFemenino
             : SEL.generoMasculino;
 
