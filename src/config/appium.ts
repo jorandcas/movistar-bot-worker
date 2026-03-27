@@ -7,6 +7,8 @@ export async function createDriver() {
     hostname: ENV.APPIUM_HOST,
     port: ENV.APPIUM_PORT,
     path: "/",
+    connectionRetryTimeout: 180000, // 3 minutos - tiempo para crear sesión inicial
+    connectionRetryCount: 3, // Reintentar 3 veces si falla
     capabilities: {
       platformName: "Android",
       "appium:automationName": "UiAutomator2",
